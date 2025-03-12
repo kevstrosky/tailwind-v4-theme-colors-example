@@ -1,0 +1,43 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:where([data-theme=dark], [data-theme=dark] *));
+
+@theme {
+  --color-card: hsl(207 97% 12%);
+  --color-background-light: hsl(0 0% 100%);
+  --color-background-dark: hsl(207 95% 8%);
+  --color-background-custom: hsl(102 23% 80%);
+  --color-background-pastel: hsl(180 23% 80%);
+}
+
+@layer base {
+  [data-theme="light"] {
+    --color-card: hsl(0 0% 96%);
+  }
+  [data-theme="dark"] {
+    --color-card: hsl(207 97% 12%);
+  }
+  [data-theme="custom"] {
+    --color-card: hsl(100 97% 48%);
+  }
+  [data-theme="pastel"] {
+    --color-card: hsl(180 50% 80%);
+  }
+}
+
+:root[data-theme="light"] {
+  background-color: var(--color-background-light);
+}
+
+:root[data-theme="dark"] {
+  background-color: var(--color-background-dark);
+}
+
+:root[data-theme="custom"] {
+  background-color: var(--color-background-custom);
+}
+
+:root[data-theme="pastel"] {
+  background-color: var(--color-background-pastel);
+}
+
