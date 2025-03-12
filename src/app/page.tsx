@@ -4,7 +4,7 @@ export default function Home() {
   return (
     <div className="min-h-screen flex flex-col items-center justify-center gap-8 p-4">
       <h1 className="text-3xl font-semibold text-center">
-        Tailwind v4.0 Theme Colors Example
+        Tailwind CSS v4.0 Theme Colors Example
       </h1>
       <div className="container mx-auto flex flex-wrap items-center justify-center gap-4">
         <div className="h-64 w-full sm:w-52 bg-blue-500 text-white p-4 rounded-lg flex flex-col gap-4">
