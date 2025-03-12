@@ -2,7 +2,45 @@
 
 import { useTheme } from "next-themes";
 import { useEffect, useState } from "react";
-import { StaticThemeButton, ThemeButton } from "./theme-button";
+
+interface ThemeButtonProps {
+  themeName: string;
+  currentTheme: string | undefined;
+  onClick: () => void;
+  label: string;
+}
+
+interface StaticThemeButtonProps {
+  label: string;
+}
+
+const ThemeButton = ({
+  themeName,
+  currentTheme,
+  onClick,
+  label,
+}: ThemeButtonProps) => {
+  return (
+    <button
+      onClick={onClick}
+      className={`flex items-center cursor-pointer px-4 py-2 rounded-md transition-colors ${
+        currentTheme === themeName
+          ? "bg-blue-500 text-white"
+          : "bg-gray-200 text-gray-800 hover:bg-gray-300 dark:bg-gray-700 dark:text-gray-200 dark:hover:bg-gray-600"
+      }`}
+    >
+      {label}
+    </button>
+  );
+};
+
+const StaticThemeButton = ({ label }: StaticThemeButtonProps) => {
+  return (
+    <button className="flex items-center cursor-pointer px-4 py-2 rounded-md bg-gray-200 text-gray-800 dark:bg-gray-700 dark:text-gray-200">
+      {label}
+    </button>
+  );
+};
 
 export const ThemeButtons = () => {
   const { theme, setTheme, resolvedTheme } = useTheme();
@@ -19,15 +57,13 @@ export const ThemeButtons = () => {
     { id: "custom", label: "Custom Mode" },
     { id: "pastel", label: "Pastel Mode" },
   ];
-  // Prevent hydration mismatch by waiting for client-side mount
+
   useEffect(() => {
     setMounted(true);
   }, []);
 
-  // Detect system preference on initial load
   useEffect(() => {
     if (mounted && !theme) {
-      // If no theme is set, use system preference
       const systemTheme =
         resolvedTheme ||
         (window.matchMedia("(prefers-color-scheme: dark)").matches
@@ -38,10 +74,9 @@ export const ThemeButtons = () => {
     }
   }, [mounted, theme, resolvedTheme, setTheme]);
 
-  // Return a non-conditional version during server-side rendering
   if (!mounted) {
     return (
-      <div className="flex space-x-2">
+      <div className="flex flex-col gap-4">
         {themes.map((themeOption: ThemeOption) => (
           <StaticThemeButton key={themeOption.id} label={themeOption.label} />
         ))}
@@ -49,11 +84,10 @@ export const ThemeButtons = () => {
     );
   }
 
-  // Use resolvedTheme to get the actual theme being applied (including system preference)
   const effectiveTheme = resolvedTheme || theme;
 
   return (
-    <div className="flex space-x-2">
+    <div className="flex flex-col gap-4">
       {themes.map((themeOption: ThemeOption) => (
         <ThemeButton
           key={themeOption.id}
